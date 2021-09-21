@@ -63,7 +63,7 @@ type lifeState uint8
 type server struct {
 	Eventbus   boot.EventBus `boot:"wire"`
 	Runtime    boot.Runtime  `boot:"wire"`
-	Port       int           `boot:"config,env:${HTTP_SERVER_PORT}"`
+	Port       int           `boot:"config,key:${HTTP_SERVER_PORT},default:8080"`
 	router     chi.Router
 	httpServer *http.Server
 	testServer *httptest.Server
@@ -74,7 +74,6 @@ type server struct {
 
 const (
 	shutdownTimeout = 5 * time.Second
-	defaultPort     = 8080
 )
 
 // lifecycle states
@@ -87,17 +86,15 @@ const (
 
 func init() {
 	boot.Register(func() boot.Component {
-		return &server{
-			Port: defaultPort,
-		}
+		return &server{}
 	})
 }
 
 func (s *server) Init() {
 	s.router = chi.NewRouter()
-	if s.Runtime.HasMode(boot.StandardMode) {
+	if s.Runtime.HasFlag(boot.StandardFlag) {
 		s.initHttpServer()
-	} else if s.Runtime.HasMode(boot.UnitTestMode) {
+	} else if s.Runtime.HasFlag(boot.UnitTestFlag) {
 		s.initTestServer()
 	}
 }
@@ -123,9 +120,9 @@ func (s *server) initTestServer() {
 }
 
 func (s *server) Start() {
-	if s.Runtime.HasMode(boot.StandardMode) {
+	if s.Runtime.HasFlag(boot.StandardFlag) {
 		s.startHttpServer()
-	} else if s.Runtime.HasMode(boot.UnitTestMode) {
+	} else if s.Runtime.HasFlag(boot.UnitTestFlag) {
 		s.startTestServer()
 	}
 	// wait for shutdown signal then return
@@ -154,9 +151,9 @@ func (s *server) startTestServer() {
 }
 
 func (s *server) Stop() {
-	if s.Runtime.HasMode(boot.StandardMode) {
+	if s.Runtime.HasFlag(boot.StandardFlag) {
 		s.stopHttpServer()
-	} else if s.Runtime.HasMode(boot.UnitTestMode) {
+	} else if s.Runtime.HasFlag(boot.UnitTestFlag) {
 		s.stopTestServer()
 	}
 }

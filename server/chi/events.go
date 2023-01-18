@@ -21,14 +21,19 @@
  *
  */
 
-package boot
+package chi
 
-import "github.com/boot-go/boot"
+// InitializedEvent is emitted when the net will be started directly afterwards.
+type InitializedEvent struct{}
 
-const version = "v1.0.0-alpha.1"
+// RouterInitializedEvent is emitted before the net is created. Use this
+// event to initialize the mux.
+// type RouterInitializedEvent struct {
+//	Router chi.Router
+// }
 
-func init() {
-	boot.Logger.Info.Printf("boot-stack version %s", version)
-}
+// ShutDownInitiatedEvent is emitted when the net will be stopped directly afterwards.
+type ShutDownInitiatedEvent struct{}
 
-// boot-stack provides basic components which can be used to build microservices.
+// ShutDownCompletedEvent is emitted when the net is stopped.
+type ShutDownCompletedEvent struct{}

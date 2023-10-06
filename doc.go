@@ -25,7 +25,7 @@ package boot
 
 import "github.com/boot-go/boot"
 
-const version = "v1.0.0-alpha.1"
+const version = "v1.0.0-alpha.2"
 
 func init() {
 	boot.Logger.Info.Printf("boot-stack version %s", version)

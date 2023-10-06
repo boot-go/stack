@@ -25,12 +25,13 @@ package chi
 
 import (
 	"context"
-	"github.com/boot-go/boot"
-	"github.com/go-chi/chi"
 	"net/http"
 	"net/http/httptest"
 	"strconv"
 	"time"
+
+	"github.com/boot-go/boot"
+	"github.com/go-chi/chi/v5"
 )
 
 type lifeState uint8
@@ -66,6 +67,8 @@ func init() {
 		return &server{}
 	})
 }
+
+var _ Server = (*server)(nil)
 
 func (s *server) Init() error {
 	s.router = chi.NewRouter()
@@ -182,6 +185,7 @@ func (s *server) stopHttpServer() error {
 	s.state = ServerShuttedDown
 	return nil
 }
+
 func (s *server) stopTestServer() {
 	s.state = ServerShuttingDown
 	s.testServer.Close()

@@ -1,12 +1,11 @@
 module github.com/boot-go/stack
 
-go 1.19
+go 1.21
 
 require (
 	github.com/boot-go/boot v1.1.0
-	github.com/c-robinson/iplib v1.0.4
-	github.com/go-chi/chi v1.5.4
-	github.com/piquette/finance-go v1.0.0
+	github.com/go-chi/chi/v5 v5.0.10
+	github.com/piquette/finance-go v1.1.0
 )
 
 require (

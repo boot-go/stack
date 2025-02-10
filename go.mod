@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/boot-go/boot v1.1.0
-	github.com/go-chi/chi/v5 v5.0.10
+	github.com/go-chi/chi/v5 v5.2.1
 	github.com/piquette/finance-go v1.1.0
 )
 
